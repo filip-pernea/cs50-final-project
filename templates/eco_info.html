@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ eco }}
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <h2 style="color: #f90; font-style: italic;">{{ eco }}</h2>
+    <h3>Changes made in this ECO</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Object changes</th>
+                <th>Value changes</th>
+                <th>From</th>
+                <th>To</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for change in changes %}
+                <tr>
+                    <td>{{ change.type }}</td>
+                    <td>{{ change.object_changed }}</td>
+                    <td>{{ change.value_changed }}</td>
+                    <td>{{ change.original_value if change.original_value }}</td>
+                    <td>{{ change.new_value }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <!-- <meta name="viewport" content="initial-scale=1, width=device-width"> -->
+
+        <link href="/static/styles.css" rel="stylesheet">
+
+        <title>felipePLM - {% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <nav>
+            <div class="space-between">
+                <a href="/" class="nav-title"><h1>felipePLM</h1></a>
+                {% if False %}
+                    <form action="/search" method="get" class="horizontal">
+                        <input name="search" placeholder="Search" type="text" autocomplete="off" class="nav-item long">
+                        <button type="submit" class="nav-item">Search</button>
+                    </form>
+                {% endif %}
+            </div>
+
+            {% block tabs %}
+
+            {% endblock %}
+
+            {% if False %}
+                <div class="space-between">
+                    <div class="horizontal">
+                        <a href="/" class="nav-item block">Dashboard</a>
+                        <a href="/parts" class="nav-item block">Parts</a>
+                        <a href="/bom" class="nav-item block">BOM</a>
+                        <a href="/changes" class="nav-item block">Changes</a>
+                    </div>
+                </div>
+            {% endif %}
+        </nav>
+
+        <main style="position: relative;">
+            {% with messages = get_flashed_messages(with_categories=True) %}
+                {% for category, message in messages %}
+                    <div class="alert-{{ category }}">
+                        <em class="center" style="color: #eee;">{{ message }}</em>
+                    </div>
+                {% endfor %}
+            {% endwith %}
+
+            {% block main %}
+
+            {% endblock %}
+        </main>
+
+        <footer>
+            <div class="space-between">
+                {% if session["user_id"] %}
+                    <p>View your <a href="/profile/{{ session["user_id"] }}" class="link">account</a> or <a href="/logout" class="link">log out</a>.</p>
+                    <p>DELETE YOUR ACCOUNT HERE: <a href="/deleteuser" class="link">HERE</a>!!!</p>
+                {% else %}
+                    <p>You may want to <a href="/login" class="link">log in</a>.</p>
+                {% endif %}
+                <p>made by felipe as a <em>CS50</em> final project.</p>
+            </div>
+        </footer>
+    </body>
+</html>

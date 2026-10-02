@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block tabs %}
+    <script>
+        let newValue = false
+        let modifyValue = false
+        let viewValue = false
+
+        function onClickNew()
+        {
+            document.querySelectorAll(".new").forEach(function(currentValue) {
+                if (!newValue)
+                {
+                    currentValue.style.display = "flex";
+                }
+                else
+                {
+                    currentValue.style.display = "none";
+                }
+            });
+            newValue = !newValue
+        }
+
+        function onClickModify()
+        {
+            document.querySelectorAll(".modify").forEach(function(currentValue) {
+                if (!modifyValue)
+                {
+                    currentValue.style.display = "flex";
+                }
+                else
+                {
+                    currentValue.style.display = "none";
+                }
+            });
+            modifyValue = !modifyValue
+        }
+
+        function onClickView()
+        {
+            document.querySelectorAll(".view").forEach(function(currentValue) {
+                if (!viewValue)
+                {
+                    currentValue.style.display = "flex";
+                }
+                else
+                {
+                    currentValue.style.display = "none";
+                }
+            });
+            viewValue = !viewValue;
+        }
+    </script>
+{% endblock %}
+
+{% block main %}
+    {% if not session["user_id"] %}
+        <div class="card">
+            <h2>Welcome to felipePLM!</h2>
+            <div class="card-min">
+                <h3 class="italic">PLM</h3>
+                <p>or <em>Product Lifecycle Management</em> is a term in manufacturing that refers to the process of managing the entire lifecycle of a product.</p>
+            </div>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;<em>felipePLM</em> is an easy-to-use PLM system for small businesses, that lets them create parts and add things like <em>part number</em>, <em>bill of materials</em> and also view <em>changes</em>. This ensures your team spends <em>less time navigating</em> weird UI, and <em>more time working</em> on your actual parts.</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+            <p class="center">To view the whole website <a href="/login" class="link">log in</a> or <a href="/learn" class="link">learn</a> how to use.</p>
+        </div>
+    {% else %}
+        <div class="center-screen">
+            <p style="font-size: 2rem;">Hello, <em style="font-size: 2rem;">{{ full_name if full_name }}</em></p>
+            <p style="font-size: 2rem;">What do you want to do today?</p>
+        </div>
+        <div class="vertical no-spacing" style="position: absolute; right: 0; bottom: 0; display: flex; width: fit-content;">
+            <div class="horizontal-reverse" style="width: 50rem; justify-content: flex-start;">
+                <button onclick="onClickView()" class="center" style="background-color: #222; width: 15rem; height: 4rem; flex-shrink: 0;">View</button>
+                <form action="/eco" method="get" class="vertical no-spacing view" style="display: none;">
+                    <button type="submit" class="center" style="background-color: #222; width: 15rem; height: 4rem;">ECOs</button>
+                </form>
+                <form action="/part" method="get" class="vertical no-spacing view" style="display: none;">
+                    <button type="submit" class="center" style="background-color: #222; width: 15rem; height: 4rem;">Parts</button>
+                </form>
+                <form action="/bom" method="get" class="vertical no-spacing view" style="display: none;">
+                    <button type="submit" class="center" style="background-color: #222; width: 15rem; height: 4rem;">BOMs</button>
+                </form>
+            </div>
+            <div class="horizontal-reverse" style="width: 50rem; justify-content: flex-start;">
+                <button onclick="onClickNew()" class="center" style="background-color: #222; width: 15rem; height: 4rem;">Create</button>
+                <form action="/create/eco" method="get" class="vertical no-spacing new" style="display: none;">
+                    <button type="submit" class="center" style="background-color: #222; width: 15rem; height: 4rem;">ECO</button>
+                </form>
+                <form action="/create/user" method="get" class="vertical no-spacing new" style="display: none;">
+                    <button type="submit" class="center" style="background-color: #222; width: 15rem; height: 4rem;">User</button>
+                </form>
+            </div>
+            <div class="horizontal-reverse" style="width: 50rem; justify-content: flex-start;">
+                <button onclick="onClickModify()" class="center" style="background-color: #222; width: 15rem; height: 4rem;">Modify</button>
+                <form action="/eco/pending" method="get" class="vertical no-spacing modify" style="display: none;">
+                    <button type="submit" class="center" style="background-color: #222; width: 15rem; height: 4rem;">Pending ECO</button>
+                </form>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

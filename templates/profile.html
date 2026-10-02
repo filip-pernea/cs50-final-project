@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ name }} aka {{ username }}
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <h3>{{ user.full_name }}</h3>
+        <p>aka <em>{{ user.username }}</em> ({{ user.id }})</p>
+        <p>Bio: <em>{{ user.bio }}</em></p>
+        <p>Created at <em>{{ user.created_at }} GMT</em></p>
+        <p>This user's role <em>{{ user.role }}</em></p>
+    </div>
+{% endblock %}

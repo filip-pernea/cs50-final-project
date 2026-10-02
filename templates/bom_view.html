@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ bom }}
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <h2 style="color: #f90; font-style: italic;">{{ bom }}</h2>
+    <h3>Parts in this BOM</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Part number</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for part in parts %}
+                <tr>
+                    <td>{{ part.component_pn }}</td>
+                    <td>{{ part.quantity }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

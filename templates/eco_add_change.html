@@ -1,0 +1,262 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add change to {{ eco }}
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="card card-flex">
+        <h2>Add change to {{ eco }}</h2>
+        <h3>Change type</h3>
+        <div class="horizontal" style="margin-bottom: 0; justify-content: space-evenly; padding-bottom: 1.5rem; border-bottom: 5px solid #f90; border-radius: 5px;">
+            <a class="link" onclick="onClickNewPart()">New part</a>
+            <a class="link" onclick="onClickModifyPart()">Modify part</a>
+            <a class="link" onclick="onClickNewBOMItem()">New BOM item</a>
+            <a class="link" onclick="onClickModifyBOMItem()">Modify BOM item</a>
+            <a class="link" onclick="onClickDeleteBOMItem()">Delete BOM item</a>
+        </div>
+        <form action="/eco/{{ eco }}/new_part" style="display: none;" method="post" class="center vertical" id="new-part-container">
+            <h3>New part</h3>
+            <div class="horizontal" style="justify-content: space-evenly;">
+                <div>
+                    <p class="label">Part number<em>*</em></p>
+                    <input name="part_number" placeholder="P000000" autocomplete="off" type="text" class="short" value="{{ pn if pn }}">
+                </div>
+                <div>
+                    <p class="label">Add a description<em>*</em></p>
+                    <input name="description" placeholder="Description" autocomplete="off" type="text" class="long" value="{{ desc if desc }}">
+                </div>
+            </div>
+            <div class="horizontal" style="justify-content: space-evenly;">
+                <div>
+                    <p class="label">Internal revision<em>*</em></p>
+                    <input placeholder="" autocomplete="off" type="number" class="short" value="1" disabled>
+                </div>
+                <div>
+                    <p class="label">Internal ECO (auto)</p>
+                    <input placeholder="" autocomplete="off" type="text" class="short" value="{{ eco }}" disabled>
+                </div>
+                <div>
+                    <p class="label">Customer revision</p>
+                    <input name="cust_revision" autocomplete="off" type="text" class="short" value="{{ cust_rev if cust_rev }}">
+                </div>
+                <div>
+                    <p class="label">Customer ECO</p>
+                    <input name="cust_eco" autocomplete="off" type="text" class="short" value="{{ cust_eco if cust_eco }}">
+                </div>
+            </div>
+            <div class="horizontal" style="justify-content: space-evenly;">
+                <div>
+                    <p class="label">Type<em>*</em></p>
+                    <select name="type" id="part-type" onchange="toggleBomInput()">
+                        <option value="manufactured">Manufactured</option>
+                        <option value="purchased">Purchased</option>
+                        <option value="document">Document</option>
+                        <option value="level">Level</option>
+                    </select>
+                </div>
+                <!-- if the dropdown is at manufactured or level -->
+                <div id="bom-container">
+                    <p class="label">BOM<em>**</em></p>
+                    <input name="bom" autocomplete="off" type="text" value="{{ bom if bom }}">
+                </div>
+            </div>
+            <!-- if the dropdown is at purchased-->
+            <div id="manufacturer-container">
+                <div class="horizontal">
+                    <div>
+                        <p class="label">Add a manufacturer<em>*</em></p>
+                        <input name="manufacturer" placeholder="STMicroelectronics" autocomplete="off" type="text" class="long" value="{{ manuf if manuf }}">
+                    </div>
+                    <div>
+                        <p class="label">MPN<em>*</em></p>
+                        <input name="mpn" placeholder="STM32F103C8T6" autocomplete="off" type="text" class="short" value="{{ mpn if mpn }}">
+                    </div>
+                </div>
+            </div>
+            <div class="center">
+                <p class="label">Unit of measurment</p>
+                <select name="um">
+                    <option value="m">m</option>
+                    <option value="mm">mm</option>
+                    <option value="pcs">pcs</option>
+                    <option value="kg">kg</option>
+                    <option value="g">g</option>
+                    <option value="l">l</option>
+                </select>
+            </div>
+            <button type="submit" class="center">Add change</button>
+        </form>
+
+        <form action="/eco/{{ eco }}/modify_part" style="display: none;" method="post" class="center vertical" id="modify-part-container">
+            <h3>Modify part</h3>
+            <div class="horizontal" style="justify-content: space-evenly;">
+                <div>
+                    <p class="label">Part number</p>
+                    <input name="pn" autocomplete="off" placeholder="P000000" type="text" class="long">
+                </div>
+            </div>
+            <div class="horizontal" style="justify-content: space-evenly;">
+                <div>
+                    <p class="label">Value to change<em>*</em></p>
+                    <select name="value">
+                        <option value="description">Description</option>
+                        <option value="customer_revision">Customer revision</option>
+                        <option value="customer_eco">Customer ECO</option>
+                        <option value="unit">Unit of measurment</option>
+                        <option value="manufacturer">Manufacturer</option>
+                        <option value="mpn">MPN</option>
+                        <option value="bom">BOM</option>
+                    </select>
+                </div>
+                <div>
+                    <p class="label">Change value to<em>*</em></p>
+                    <input name="new" autocomplete="off" type="text">
+                </div>
+            </div>
+            <button type="submit" class="center">Add change</button>
+        </form>
+
+        <form action="/eco/{{ eco }}/new_bom_item" style="display: none;" method="post" class="center vertical" id="new-bom-item-container">
+            <h3>New BOM item</h3>
+            <div class="horizontal" style="justify-content: space-around;">
+                <div>
+                    <p class="label">BOM<em>*</em></p>
+                    <input name="bom" autocomplete="off" placeholder="BOM000000" type="text">
+                </div>
+                <div>
+                    <p class="label">Part number<em>*</em></p>
+                    <input name="pn" autocomplete="off" placeholder="P000000" type="text">
+                </div>
+            </div>
+            <div class="horizontal" style="justify-content: space-around;">
+                <div>
+                    <p class="label">Quantity<em>*</em></p>
+                    <input name="qty" autocomplete="off" type="number" class="long">
+                </div>
+            </div>
+            <button type="submit" class="center">Add change</button>
+        </form>
+
+        <form action="/eco/{{ eco }}/modify_bom_item" style="display: none;" method="post" class="center vertical" id="modify-bom-item-container">
+            <h3>Modify BOM item</h3>
+            <div class="horizontal" style="justify-content: space-around;">
+                <div>
+                    <p class="label">BOM<em>*</em></p>
+                    <input name="bom" autocomplete="off" placeholder="BOM000000" type="text">
+                </div>
+                <div>
+                    <p class="label">Part number<em>*</em></p>
+                    <input name="pn" autocomplete="off" placeholder="P000000" type="text">
+                </div>
+            </div>
+            <div class="horizontal" style="justify-content: space-around;">
+                <div>
+                    <p class="label">New quantity<em>*</em></p>
+                    <input name="qty" autocomplete="off" type="number" class="long">
+                </div>
+            </div>
+            <button type="submit" class="center">Add change</button>
+        </form>
+
+        <form action="/eco/{{ eco }}/delete_bom_item" style="display: none;" method="post" class="center vertical" id="delete-bom-item-container">
+            <h3>Delete BOM item</h3>
+            <div class="horizontal" style="justify-content: space-around;">
+                <div>
+                    <p class="label">BOM<em>*</em></p>
+                    <input name="bom" autocomplete="off" placeholder="BOM000000" type="text">
+                </div>
+                <div>
+                    <p class="label">Part number<em>*</em></p>
+                    <input name="pn" autocomplete="off" placeholder="P000000" type="text">
+                </div>
+            </div>
+            <button type="submit" class="center">Add change</button>
+        </form>
+        <p class="center">Fields marked with <em>*</em> are required.</p>
+        <p class="center">Fields marked with <em>**</em> are required in order to release the ECO, but you can leave them empty until you create the data.</p>
+    </div>
+
+    <script>
+        let newPartContainer;
+        let modifyPartContainer;
+        let newBOMItemContainer;
+        let modifyBOMItemContainer;
+        let deleteBOMItemContainer;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            newPartContainer = document.getElementById('new-part-container');
+            modifyPartContainer = document.getElementById('modify-part-container');
+            newBOMItemContainer = document.getElementById('new-bom-item-container');
+            modifyBOMItemContainer = document.getElementById('modify-bom-item-container');
+            deleteBOMItemContainer = document.getElementById('delete-bom-item-container');
+
+            onClickNewPart()
+            toggleBomInput()
+        });
+
+        function onClickNewPart() {
+            newPartContainer.style.display = 'flex';
+            modifyPartContainer.style.display = 'none';
+            newBOMItemContainer.style.display = 'none';
+            modifyBOMItemContainer.style.display = 'none';
+            deleteBOMItemContainer.style.display = 'none';
+        }
+
+        function onClickModifyPart() {
+            newPartContainer.style.display = 'none';
+            modifyPartContainer.style.display = 'flex';
+            newBOMItemContainer.style.display = 'none';
+            modifyBOMItemContainer.style.display = 'none';
+            deleteBOMItemContainer.style.display = 'none';
+        }
+
+        function onClickNewBOMItem() {
+            newPartContainer.style.display = 'none';
+            modifyPartContainer.style.display = 'none';
+            newBOMItemContainer.style.display = 'flex';
+            modifyBOMItemContainer.style.display = 'none';
+            deleteBOMItemContainer.style.display = 'none';
+        }
+
+        function onClickModifyBOMItem() {
+            newPartContainer.style.display = 'none';
+            modifyPartContainer.style.display = 'none';
+            newBOMItemContainer.style.display = 'none';
+            modifyBOMItemContainer.style.display = 'flex';
+            deleteBOMItemContainer.style.display = 'none';
+        }
+
+        function onClickDeleteBOMItem() {
+            newPartContainer.style.display = 'none';
+            modifyPartContainer.style.display = 'none';
+            newBOMItemContainer.style.display = 'none';
+            modifyBOMItemContainer.style.display = 'none';
+            deleteBOMItemContainer.style.display = 'flex';
+        }
+
+        function toggleBomInput() {
+            const partType = document.getElementById('part-type');
+            const bomContainer = document.getElementById('bom-container');
+            const manufacturerContainer = document.getElementById('manufacturer-container');
+            
+            if (partType.value === 'manufactured' || partType.value === 'level') {
+                bomContainer.style.display = 'block';
+                manufacturerContainer.style.display = 'none';
+                partType.style.width = '33rem';
+            } else if (partType.value === 'purchased') {
+                bomContainer.style.display = 'none';
+                manufacturerContainer.style.display = 'block';
+                partType.style.width = '67rem';
+            } else {
+                bomContainer.style.display = 'none';
+                manufacturerContainer.style.display = 'none';
+                partType.style.width = '33rem';
+            }
+        }
+    </script>
+{% endblock %}

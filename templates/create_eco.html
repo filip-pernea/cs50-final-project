@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create ECO
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <h2>Create ECO</h2>
+        <form action="/create/eco" method="post" class="center vertical">
+            <p><em>Start a new ECO in order to create or modify a part or BOM.</em></p>
+            <div>
+                <p class="label">Add a description (you can change this later on)</p>
+                <input name="description" placeholder="Description" autocomplete="off" type="text" class="long">
+            </div>
+            <button type="submit" class="center">Create ECO</button>
+        </form>
+    </div>
+{% endblock %}

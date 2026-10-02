@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ part.pn }}
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <h2 style="color: #f90; font-style: italic;">{{ part.pn }}</h2>
+        <p class="center">{{ part.description }}</p>
+        <p>Internal revision: <em>{{ part.internal_revision }}</em></p>
+        <p>Internal ECO: <em>{{ part.internal_eco }}</em></p>
+        {% if part.customer_revision %}
+            <p>Customer revision: <em>{{ part.customer_revision }}</em></p>
+        {% endif %}
+        {% if part.customer_eco %}
+            <p>Customer ECO: <em>{{ part.customer_eco }}</em></p>
+        {% endif %}
+        <p>Type: <em>{{ part.type }}</em></p>
+        <p>Unit of measurment: <em>{{ part.unit }}</em></p>
+        {% if part.manufacturer %}
+            <p>Manufacturer: <em>{{ part.manufacturer }}</em></p>
+            <p>MPN: <em>{{ part.mpn }}</em></p>
+        {% endif %}
+        {% if part.bom %}
+            <p>BOM: <a class="link" href="/bom/{{ part.bom }}">{{ part.bom }}</a></p>
+            {% endif %}
+    </div>
+{% endblock %}

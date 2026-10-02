@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Modify pending ECO
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <h3>{{ title }}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ECO</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Creation date</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for eco in ecos %}
+                <tr onclick="window.location='/eco/{{ eco.eco }}';" style="cursor: pointer;">
+                    <td>{{ eco.eco }}</td>
+                    <td>{{ eco.description }}</td>
+                    <td><em class="status-{{ eco.status }}">{{ eco.status }}</em></td>
+                    <td>{{ eco.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

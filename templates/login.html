@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log in
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <h2>Log in</h2>
+        <form action="/login" method="post" class="center no-spacing vertical">
+            <div>
+                <p class="label">Username</p>
+                <input name="username" placeholder="Username" autocomplete="off" autofocus type="text" class="long" value="{{ username if username }}">
+            </div>
+            <div>
+                <p class="label">Password</p>
+                <input name="password" placeholder="Password" autocomplete="off" type="password" class="long">
+            </div>
+            <button type="submit" class="center">Log in</button>
+        </form>
+        <p class="center">Having problems? <a href="contact" class="link">Contact me</a>!</p>
+    </div>
+{% endblock %}

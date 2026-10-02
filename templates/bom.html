@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    BOMs
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <h2 style="color: #f90; font-style: italic;">BOMs</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>BOM</th>
+                <th>Components</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for bom in boms %}
+                <tr onclick="window.location='/bom/{{ bom.bom }}';" style="cursor: pointer;">
+                    <td>{{ bom.bom }}</td>
+                    <td>{{ bom.count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

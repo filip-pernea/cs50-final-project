@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ eco }}
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <a class="link" href="/{{ eco }}/{{ change.id }}/delete">Delete this change</a>
+    </div>
+{% endblock %}

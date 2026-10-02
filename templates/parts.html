@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Modify pending ECO
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <h3>Parts</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>PN</th>
+                <th>Description</th>
+                <th>Internal revision</th>
+                <th>Internal ECO</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for part in parts %}
+                <tr onclick="window.location='/part/{{ part.pn }}';" style="cursor: pointer;">
+                    <td>{{ part.pn }}</td>
+                    <td>{{ part.description }}</td>
+                    <td>{{ part.internal_revision }}</td>
+                    <td>{{ part.internal_eco }}</td>
+                    <td>{{ part.type }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

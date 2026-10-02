@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create user
+{% endblock %}
+
+{% block tabs %}
+
+{% endblock %}
+
+{% block main %}
+    <div class="card">
+        <h2>Create user</h2>
+        <form action="/create/user" method="post" class="center no-spacing vertical">
+            <div>
+                <p class="label">Full name</p>
+                <input name="full_name" placeholder="Full name" autocomplete="off" autofocus type="text" class="long">
+            </div>
+            <div>
+                <p class="label">Username</p>
+                <input name="username" placeholder="Username" autocomplete="off" type="text" class="long">
+            </div>
+            <div>
+                <p class="label">Password</p>
+                <input name="password" placeholder="Password" autocomplete="off" type="password" class="long">
+            </div>
+            <div>
+                <p class="label">Role</p>
+                <input name="role" placeholder="255 for account creation" autocomplete="off" type="number" class="long">
+            </div>
+            
+            <button type="submit" class="center">Log in</button>
+        </form>
+        <p class="center text-center">Please only include <em>alphanumerical</em> characters and <em>-</em> or <em>_</em> in your username. Please input a username that has <em>more than 3 characters</em>, but <em>less than 15</em>.</p>
+        <p class="center text-center">Please don't include <em>spaces</em>, <em>;</em>, <em>"</em>, <em>'</em> or <em>,</em> in your password. Please input a username that has <em>more than 6 characters</em>, but <em>less than 30</em>.</p>
+        <p class="center">Having problems? <a href="contact" class="link">Contact me</a>!</p>
+    </div>
+{% endblock %}
